@@ -1,8 +1,19 @@
 package com.example.prision.modules.dto;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 @Data
+@JsonPropertyOrder(
+        {"cep",
+         "logradouro",
+         "complemento",
+         "unidade",
+         "bairro",
+         "uf",
+         "estado",
+         "regiao",
+         "ibge"})
 public class AddressResponse {
 
     private String cep;

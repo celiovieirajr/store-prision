@@ -20,6 +20,7 @@ public class Product {
     private LocalDateTime dateTimeUpdated;
     private LocalDate dateCreated;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 }
