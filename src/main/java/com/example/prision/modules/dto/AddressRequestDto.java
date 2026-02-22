@@ -1,11 +1,9 @@
-package com.example.prision.model;
+package com.example.prision.modules.dto;
 
-import jakarta.persistence.Embeddable;
 import lombok.Data;
 
 @Data
-@Embeddable
-public class Address {
+public class AddressRequestDto {
 
     private String cep;
     private String logradouro;
