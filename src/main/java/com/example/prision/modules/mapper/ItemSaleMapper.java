@@ -28,16 +28,16 @@ public class ItemSaleMapper {
     public ItemSale toModel(ItemSaleRequestDto itemSaleRequestDto) {
         ItemSale itemSale = new ItemSale();
 
-        Sale sale = saleRepository.findById(Math.toIntExact(itemSaleRequestDto.getIdSaleRequestDto())).orElseThrow(
+        Sale sale = saleRepository.findById(itemSaleRequestDto.getIdSaleRequestDto()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item sale not found: " +  itemSaleRequestDto.getIdSaleRequestDto()));
 
-        Product product = productRepository.findById(Math.toIntExact(itemSaleRequestDto.getIdProductRequestDto())).orElseThrow(
+        Product product = productRepository.findById(itemSaleRequestDto.getIdProductRequestDto()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "product not found: " + itemSaleRequestDto.getIdProductRequestDto()));
 
         itemSale.setSale(sale);
         itemSale.setProduct(product);
         itemSale.setQuantity(itemSaleRequestDto.getQuantity());
-        itemSale.setAmount(itemSaleRequestDto.getAmount());
+        itemSale.setAmount(product.getAmount());
 
         BigDecimal quantity = BigDecimal.valueOf(itemSaleRequestDto.getQuantity());
         BigDecimal amountTotal = quantity.multiply(quantity).setScale(2, RoundingMode.HALF_UP);

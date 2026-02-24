@@ -6,7 +6,9 @@ import com.example.prision.modules.model.ItemSale;
 import com.example.prision.modules.model.Penitentiary;
 import com.example.prision.modules.model.Sale;
 import com.example.prision.modules.repository.PenitentiaryRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,7 +27,8 @@ public class SaleMapper {
     public Sale toModel(SaleRequestDto saleRequestDto) {
         Sale sale = new Sale();
 
-        Penitentiary penitentiary = penitentiaryRepository.findById(saleRequestDto.getIdPenitentiaryRequestDto());
+        Penitentiary penitentiary = penitentiaryRepository.findById(saleRequestDto.getIdPenitentiaryRequestDto()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Penitentiary Not Found"));
 
         List<ItemSale> itemSaleList = saleRequestDto.getItemSaleRequestDtosList()
                 .stream()
