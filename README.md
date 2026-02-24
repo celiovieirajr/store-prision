@@ -33,6 +33,7 @@ Aplicação monolítica que expõe APIs REST para:
   Possui também uma página web (HTML/CSS/JS) para fluxo de compra.
 
 ## Estrutura do projeto
+```text
 com.example.prison
 ├── exceptions
 │     └── RequiredField
@@ -51,5 +52,6 @@ com.example.prison
 │     └── ProductController
 │
 └── PrisonApplication
+```
 
 
