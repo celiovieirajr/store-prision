@@ -1,9 +1,9 @@
 package com.example.prision.modules.web;
 
-import com.example.prision.modules.dto.PenitentiaryRequestDto;
-import com.example.prision.modules.dto.ProductRequestDto;
-import com.example.prision.modules.dto.ProductResponseDto;
-import com.example.prision.modules.service.IProductService;
+import com.example.prision.modules.dto.CategoryRequestDto;
+import com.example.prision.modules.dto.SaleRequestDto;
+import com.example.prision.modules.dto.SaleResponseDto;
+import com.example.prision.modules.service.ISaleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,103 +14,104 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController @RequestMapping("/api/v1/products")
-public class ProductController {
+@RestController
+@RequestMapping("/sale")
+public class SaleController {
 
-    private final IProductService productService;
+    private final ISaleService saleService;
 
-    public ProductController(IProductService productService) {
-        this.productService = productService;
+    public SaleController(ISaleService saleService) {
+        this.saleService = saleService;
     }
 
-    @Operation(summary = "Insert product", description = "Insert product",
-            tags = "Product",
+    @Operation(summary = "Insert sale", description = "Insert sale",
+            tags = "Sale",
             responses = {
                     @ApiResponse(
                             description = "Created",
                             responseCode = "201",
-                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
+                            content = @Content(schema = @Schema(implementation = SaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
-    @PostMapping
-    public ResponseEntity<ProductResponseDto> insertProductController(@RequestBody ProductRequestDto productRequestDto) {
-        ProductResponseDto response =  productService.insertProduct(productRequestDto);
+    @PostMapping()
+    public ResponseEntity<SaleResponseDto> insertSale(@RequestBody SaleRequestDto saleRequestDto) {
+        SaleResponseDto response = saleService.createSale(saleRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @Operation(summary = "Find product by Id", description = "Find product by Id",
-            tags = "Product",
+    @Operation(summary = "Find sale by Id", description = "Find sale by Id",
+            tags = "Sale",
             responses = {
                     @ApiResponse(
                             description = "Ok",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
+                            content = @Content(schema = @Schema(implementation = SaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDto> getProductByIdController(@PathVariable Long id) {
-        ProductResponseDto response = productService.findProductById(id);
+    public ResponseEntity<SaleResponseDto> findByIdController(@PathVariable Long id) {
+        SaleResponseDto response = saleService.findById(id);
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Find all product", description = "Find all product",
-            tags = "Product",
+    @Operation(summary = "Find all sale by Id", description = "Find all sale by Id",
+            tags = "Sale",
             responses = {
                     @ApiResponse(
                             description = "Ok",
                             responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
+                            content = @Content(schema = @Schema(implementation = SaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
     @GetMapping
-    public ResponseEntity<List<ProductResponseDto>> getAllProductsController() {
-        List<ProductResponseDto> response = productService.findAllProducts();
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<SaleResponseDto>> findAllController() {
+        List<SaleResponseDto> response = saleService.findAll();
+        return  ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Updated product by Id", description = "Updated product by Id",
-            tags = "Product",
+    @Operation(summary = "Updated sale by Id", description = "Updated sale by Id",
+            tags = "Sale",
             responses = {
                     @ApiResponse(
                             description = "No Content",
                             responseCode = "204",
-                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
+                            content = @Content(schema = @Schema(implementation = SaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
-    @PutMapping("/{id}")
-    public ResponseEntity<List<ProductResponseDto>> updateProductByIdController(@PathVariable Long id,
-                                                                                @RequestBody ProductRequestDto productRequestDto) {
-        ProductResponseDto response =  productService.updateProduct(id, productRequestDto);
+    @PutMapping("/{idSale}")
+    public ResponseEntity<SaleResponseDto> updateById(@PathVariable Long idSale,
+                                                      @RequestBody SaleRequestDto saleRequestDto) {
+        SaleResponseDto response = saleService.updatedSale(idSale, saleRequestDto);
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Delete product by Id", description = "Delete product by Id",
-            tags = "Product",
+    @Operation(summary = "Delete sale by Id", description = "Find sale by Id",
+            tags = "Sale",
             responses = {
                     @ApiResponse(
                             description = "No Content",
                             responseCode = "204",
-                            content = @Content(schema = @Schema(implementation = ProductRequestDto.class))),
+                            content = @Content(schema = @Schema(implementation = SaleRequestDto.class))),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProductByIdController(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    @DeleteMapping("/{idSale}")
+    public ResponseEntity<SaleResponseDto> deleteById(@PathVariable Long idSale){
+        saleService.deleteById(idSale);
         return ResponseEntity.noContent().build();
     }
 }
