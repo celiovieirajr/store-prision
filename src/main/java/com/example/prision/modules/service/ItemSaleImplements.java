@@ -26,14 +26,16 @@ public class ItemSaleImplements implements IItemSaleService {
     private final ProductMapper productMapper;
     private final SaleRepository saleRepository;
     private final SaleMapper saleMapper;
+    private final SaleServiceImplements saleService;
 
-    public ItemSaleImplements(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository, ProductMapper productMapper,  SaleRepository saleRepository, SaleMapper saleMapper) {
+    public ItemSaleImplements(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository, ProductMapper productMapper,  SaleRepository saleRepository, SaleMapper saleMapper, SaleServiceImplements saleService) {
         this.itemSaleRepository = itemSaleRepository;
         this.itemSaleMapper = itemSaleMapper;
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.saleRepository = saleRepository;
         this.saleMapper = saleMapper;
+        this.saleService = saleService;
     }
 
     public ItemSaleResponseDto insertItemSale(ItemSaleRequestDto itemSaleRequestDto, Long idSale) {
@@ -57,6 +59,8 @@ public class ItemSaleImplements implements IItemSaleService {
 
         ItemSale model = itemSaleMapper.toModel(itemSaleRequestDto);
         ItemSale modelSaved = itemSaleRepository.save(model);
+
+        saleService.recalculateTotalAmount(sale);
 
         return  itemSaleMapper.toResponseDto(modelSaved);
     }
@@ -122,7 +126,10 @@ public class ItemSaleImplements implements IItemSaleService {
         itemSale.setQuantity(itemSaleRequestDto.getQuantity());
         itemSale.setAmount(product.getAmount());
 
-        return itemSaleMapper.toResponseDto(itemSaleRepository.save(itemSale));
+        ItemSale itemSaleSaved = itemSaleRepository.save(itemSale);
+        saleService.recalculateTotalAmount(sale);
+
+        return itemSaleMapper.toResponseDto(itemSaleSaved);
     }
 
     public void deleteById(Long idSale, Long idItemSale) {
@@ -142,6 +149,7 @@ public class ItemSaleImplements implements IItemSaleService {
 
         if (itemSale.getSale().getId().equals(sale.getId())) {
             itemSaleRepository.delete(itemSale);
+            saleService.recalculateTotalAmount(sale);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error different idSale or idItemSale");
         }
