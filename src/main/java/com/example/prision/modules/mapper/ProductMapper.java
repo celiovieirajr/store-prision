@@ -26,7 +26,7 @@ public class ProductMapper {
     public Product toModel(ProductRequestDto productRequestDto) {
         Product product = new Product();
 
-        Category category = categoryRepository.findById(Math.toIntExact(productRequestDto.getCategoryId())).orElseThrow(
+        Category category = categoryRepository.findById(productRequestDto.getCategoryId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found: "  + productRequestDto.getCategoryId()));
 
         product.setCategory(category);

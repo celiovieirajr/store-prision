@@ -43,7 +43,7 @@ public class ProductServiceImplements implements IProductService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid product id");
         }
 
-        Product model = productRepository.findById(Math.toIntExact(id)).orElseThrow(
+        Product model = productRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
         return productMapper.toResponseDto(model);
     }
@@ -56,7 +56,7 @@ public class ProductServiceImplements implements IProductService {
 
         validateProduct(productRequestDto); // validation basic modification product
 
-        Product model = productRepository.findById(Math.toIntExact(id)).orElseThrow(
+        Product model = productRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         model.setDateTimeUpdated(LocalDateTime.now());
@@ -65,7 +65,7 @@ public class ProductServiceImplements implements IProductService {
         model.setAmountCost(productRequestDto.getAmountCost());
         model.setDateCreated(productRequestDto.getDateCreated());
 
-        Category category = categoryRepository.findById(Math.toIntExact(productRequestDto.getCategoryId())).orElseThrow(
+        Category category = categoryRepository.findById(productRequestDto.getCategoryId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
 
 
@@ -80,7 +80,7 @@ public class ProductServiceImplements implements IProductService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid product id");
         }
 
-        Product model = productRepository.findById(Math.toIntExact(id)).orElseThrow(
+        Product model = productRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
         productRepository.delete(model);
     }

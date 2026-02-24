@@ -34,7 +34,7 @@ public class CategoryServiceImplements implements ICategoryService {
         return categoryMapper.toResponse(categorySaved);
     }
 
-    public CategoryResponseDto findCategoryById(int id) {
+    public CategoryResponseDto findCategoryById(Long id) {
 
         if (id <= 0) {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID less than 1");}
 
@@ -52,7 +52,7 @@ public class CategoryServiceImplements implements ICategoryService {
 
         if (id <= 0) {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID less than 1");}
 
-        Category category = categoryRepository.findById(Math.toIntExact(id)).orElseThrow(
+        Category category = categoryRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
 
         category.setName(categoryRequestDto.getName());
@@ -65,7 +65,7 @@ public class CategoryServiceImplements implements ICategoryService {
 
         if (id <= 0) {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID less than 1");}
 
-        Category category = categoryRepository.findById(Math.toIntExact(id)).orElseThrow(
+        Category category = categoryRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found")
         );
         categoryRepository.delete(category);
