@@ -27,16 +27,22 @@ public class SaleMapper {
     public Sale toModel(SaleRequestDto saleRequestDto) {
         Sale sale = new Sale();
 
-        Penitentiary penitentiary = penitentiaryRepository.findById(saleRequestDto.getIdPenitentiaryRequestDto()).orElseThrow(
+        Penitentiary penitentiary = penitentiaryRepository.findById(saleRequestDto.getIdPenitentiary()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Penitentiary Not Found"));
 
-        List<ItemSale> itemSaleList = saleRequestDto.getItemSaleRequestDtosList()
+        List<ItemSale> itemSaleList = saleRequestDto.getItemsSaleRequestList()
                 .stream()
                 .map(itemSale -> itemSaleMapper.toModel(itemSale))
                 .toList();
 
+        itemSaleList.forEach(itemSale -> itemSale.setSale(sale));
+
         sale.setItemSalesList(itemSaleList);
-        sale.setTotalAmount(BigDecimal.valueOf(0));
+
+        BigDecimal totalAmount = itemSaleList.stream()
+                .map(ItemSale::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        sale.setTotalAmount(totalAmount);
 
         sale.setPenitentiary(penitentiary);
         sale.setNameCustomerReceiver(saleRequestDto.getNameCustomerReceiver());
@@ -49,7 +55,7 @@ public class SaleMapper {
     public SaleResponseDto toResponseDto(Sale sale){
         SaleResponseDto response = new SaleResponseDto();
 
-       response.setItemSaleResponseDtoList(
+       response.setItems(
                sale.getItemSalesList()
                        .stream()
                        .map(itemSaleMapper::toResponseDto)

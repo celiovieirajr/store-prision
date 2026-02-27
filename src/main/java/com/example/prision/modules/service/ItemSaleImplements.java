@@ -26,9 +26,9 @@ public class ItemSaleImplements implements IItemSaleService {
     private final ProductMapper productMapper;
     private final SaleRepository saleRepository;
     private final SaleMapper saleMapper;
-    private final SaleServiceImplements saleService;
+    private final SaleImplements saleService;
 
-    public ItemSaleImplements(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository, ProductMapper productMapper,  SaleRepository saleRepository, SaleMapper saleMapper, SaleServiceImplements saleService) {
+    public ItemSaleImplements(ItemSaleRepository itemSaleRepository, ItemSaleMapper itemSaleMapper, ProductRepository productRepository, ProductMapper productMapper,  SaleRepository saleRepository, SaleMapper saleMapper, SaleImplements saleService) {
         this.itemSaleRepository = itemSaleRepository;
         this.itemSaleMapper = itemSaleMapper;
         this.productRepository = productRepository;
@@ -43,10 +43,6 @@ public class ItemSaleImplements implements IItemSaleService {
             throw new IllegalArgumentException();
         }
 
-        if (itemSaleRequestDto.getIdProductRequestDto() == null || idSale <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item sale Request dto is Empty");
-        }
-
         if (itemSaleRequestDto.getQuantity() == null || itemSaleRequestDto.getQuantity() <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item sale Request is Empty");
         }
@@ -54,7 +50,7 @@ public class ItemSaleImplements implements IItemSaleService {
         Sale sale = saleRepository.findById(idSale).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sale is nots exists"));
 
-        Product product = productRepository.findById(itemSaleRequestDto.getIdProductRequestDto()).orElseThrow(
+        Product product = productRepository.findById(itemSaleRequestDto.getIdProduct()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product nots exists"));
 
         ItemSale model = itemSaleMapper.toModel(itemSaleRequestDto);
@@ -119,7 +115,7 @@ public class ItemSaleImplements implements IItemSaleService {
         ItemSale itemSale = itemSaleRepository.findById(idItemSale).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item is nots exists"));
 
-        Product product = productRepository.findById(itemSaleRequestDto.getIdProductRequestDto()).orElseThrow(
+        Product product = productRepository.findById(itemSaleRequestDto.getIdProduct()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "product is nots exists"));
 
         itemSale.setProduct(product);

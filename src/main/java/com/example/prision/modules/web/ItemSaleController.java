@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/itemSale")
+@RequestMapping("/api/v1")
 public class ItemSaleController {
 
     private final IItemSaleService itemSaleService;
@@ -36,9 +36,9 @@ public class ItemSaleController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
-    @PostMapping("/sale/{idSale}")
+    @PostMapping("/sale/{idSale}/itemSale")
     public ResponseEntity<ItemSaleResponseDto> insertItemSaleController(@RequestBody ItemSaleRequestDto itemSaleRequestDto,
-                                                                        @PathVariable("saleId") Long idSale) {
+                                                                        @PathVariable Long idSale) {
         ItemSaleResponseDto responseDto = itemSaleService.insertItemSale(itemSaleRequestDto, idSale);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
@@ -73,7 +73,7 @@ public class ItemSaleController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
-    @GetMapping("/sale/{idSale}")
+    @GetMapping("/sale/{idSale}/itemSale")
     public ResponseEntity<List<ItemSaleResponseDto>> findAllController(@PathVariable Long saleId) {
         List<ItemSaleResponseDto> responseDto = itemSaleService.findAll(saleId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
