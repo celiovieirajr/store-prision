@@ -2,6 +2,8 @@ package com.example.prision.modules.mapper;
 
 import com.example.prision.modules.dto.ItemSaleRequestDto;
 import com.example.prision.modules.dto.ItemSaleResponseDto;
+import com.example.prision.modules.dto.ProductResponseDto;
+import com.example.prision.modules.dto.SaleResponseDto;
 import com.example.prision.modules.model.ItemSale;
 import com.example.prision.modules.model.Product;
 import com.example.prision.modules.model.Sale;
@@ -19,29 +21,28 @@ public class ItemSaleMapper {
 
     private final SaleRepository saleRepository;
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    public ItemSaleMapper(SaleRepository saleRepository, ProductRepository productRepository) {
+    public ItemSaleMapper(SaleRepository saleRepository, ProductRepository productRepository, ProductMapper productMapper) {
         this.saleRepository = saleRepository;
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     public ItemSale toModel(ItemSaleRequestDto itemSaleRequestDto) {
         ItemSale itemSale = new ItemSale();
 
-        Sale sale = saleRepository.findById(itemSaleRequestDto.getIdSaleRequestDto()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item sale not found: " +  itemSaleRequestDto.getIdSaleRequestDto()));
+        Product product = productRepository.findById(itemSaleRequestDto.getIdProduct()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "product not found: " +
+                        itemSaleRequestDto.getIdProduct()));
 
-        Product product = productRepository.findById(itemSaleRequestDto.getIdProductRequestDto()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "product not found: " + itemSaleRequestDto.getIdProductRequestDto()));
-
-        itemSale.setSale(sale);
         itemSale.setProduct(product);
         itemSale.setQuantity(itemSaleRequestDto.getQuantity());
         itemSale.setAmount(product.getAmount());
 
         BigDecimal quantity = BigDecimal.valueOf(itemSaleRequestDto.getQuantity());
-        BigDecimal amountTotal = quantity.multiply(quantity).setScale(2, RoundingMode.HALF_UP);
-        itemSaleRequestDto.setTotalAmount(amountTotal);
+        BigDecimal amountTotal = product.getAmount().multiply(quantity).setScale(2, RoundingMode.HALF_UP);
+        itemSale.setTotalAmount(amountTotal);
 
         return itemSale;
     }
@@ -51,8 +52,11 @@ public class ItemSaleMapper {
         itemSaleResponseDto.setId(itemSale.getId());
 
         itemSaleResponseDto.setQuantity(itemSale.getQuantity());
-        itemSaleResponseDto.setAmount(itemSale.getAmount());
         itemSaleResponseDto.setTotalAmount(itemSale.getTotalAmount());
+
+        ProductResponseDto productResponseDto = productMapper.toResponseDto(itemSale.getProduct());
+        itemSaleResponseDto.setProduct(productResponseDto);
+
         return itemSaleResponseDto;
     }
 }

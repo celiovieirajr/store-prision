@@ -12,12 +12,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class PenitentiaryServiceImplements implements IPenitentiaryService {
+public class PenitentiaryImplements implements IPenitentiaryService {
 
     private final PenitentiaryRepository penitentiaryRepository;
     private final PenitentiaryMapper penitentiaryMapper;
 
-    public PenitentiaryServiceImplements(PenitentiaryRepository penitentiaryRepository,  PenitentiaryMapper penitentiaryMapper) {
+    public PenitentiaryImplements(PenitentiaryRepository penitentiaryRepository, PenitentiaryMapper penitentiaryMapper) {
         this.penitentiaryRepository = penitentiaryRepository;
         this.penitentiaryMapper = penitentiaryMapper;
     }

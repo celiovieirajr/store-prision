@@ -1,0 +1,22 @@
+{
+  "itemSaleRequestDtosList": [
+    {
+      "idSale": null,
+      "idProduct": 1,
+      "quantity": 2,
+      "totalAmount": 59.98
+    },
+    {
+      "idSale": null,
+      "idProduct": 2,
+      "quantity": 1,
+      "totalAmount": 29.99
+    }
+  ],
+  "nameCustomerSender": "João da Silva",
+  "customerSenderPhone": "+55 11 99999-0000",
+  "nameCustomerReceiver": "Maria Souza",
+  "idPenitentiaryRequestDto": 1,
+  "totalAmount": 89.97
+}
+

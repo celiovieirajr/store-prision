@@ -8,14 +8,14 @@ import java.util.List;
 @Data
 public class SaleRequestDto {
 
-    private List<ItemSaleRequestDto> itemSaleRequestDtosList;
+    private List<ItemSaleRequestDto> itemsSaleRequestList;
 
     private String nameCustomerSender;
     private String customerSenderPhone;
 
     private String nameCustomerReceiver;
 
-    private Long IdPenitentiaryRequestDto;
+    private Long idPenitentiary;
 
     private BigDecimal totalAmount;
 }

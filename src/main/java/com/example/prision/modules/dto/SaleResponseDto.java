@@ -9,24 +9,24 @@ import java.util.List;
 @Data
 @JsonPropertyOrder(
         {"id",
-        "itemSaleResponseDtoList",
         "nameCustomerSender",
         "customerSenderPhone",
         "nameCustomerReceiver",
         "penitentiaryResponseDto",
+        "items",
         "totalAmount"})
 public class SaleResponseDto {
 
     private Long id;
 
-    private List<ItemSaleResponseDto> itemSaleResponseDtoList;
+    private List<ItemSaleResponseDto> items;
 
     private String nameCustomerSender;
     private String customerSenderPhone;
 
     private String nameCustomerReceiver;
 
-    private PenitentiaryResponseDto penitentiaryResponseDto;
+    private PenitentiaryResponseDto penitentiary;
 
     private BigDecimal totalAmount;
 }

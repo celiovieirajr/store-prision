@@ -17,3 +17,9 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+  main:
+    allow-circular-references: true
+
+server:
+  port: 3000

@@ -6,9 +6,6 @@ import java.math.BigDecimal;
 @Data
 public class ItemSaleRequestDto {
 
-    private Long id;
-    private Long IdSaleRequestDto;
-    private Long IdProductRequestDto;
+    private Long idProduct;
     private Integer quantity;
-    private BigDecimal totalAmount;
 }

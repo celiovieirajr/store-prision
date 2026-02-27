@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ProductServiceImplements implements IProductService {
+public class ProductImplements implements IProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
 
-    public ProductServiceImplements(ProductRepository productRepository, ProductMapper productMapper, CategoryRepository categoryRepository) {
+    public ProductImplements(ProductRepository productRepository, ProductMapper productMapper, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.categoryRepository = categoryRepository;

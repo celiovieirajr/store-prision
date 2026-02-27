@@ -18,14 +18,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class SaleServiceImplements implements ISaleService{
+public class SaleImplements implements ISaleService{
 
     private final SaleRepository saleRepository;
     private final SaleMapper saleMapper;
     private final ProductRepository productRepository;
     private final ItemSaleRepository itemSaleRepository;
 
-    public SaleServiceImplements(SaleRepository saleRepository, SaleMapper saleMapper, ProductRepository productRepository, ItemSaleRepository itemSaleRepository) {
+    public SaleImplements(SaleRepository saleRepository, SaleMapper saleMapper, ProductRepository productRepository, ItemSaleRepository itemSaleRepository) {
         this.saleRepository = saleRepository;
         this.saleMapper = saleMapper;
         this.productRepository = productRepository;
@@ -76,11 +76,11 @@ public class SaleServiceImplements implements ISaleService{
 
         sale.getItemSalesList().clear();
 
-        for (var itemDto : requestDto.getItemSaleRequestDtosList()) {
+        for (var itemDto : requestDto.getItemsSaleRequestList()) {
             ItemSale itemSale = new ItemSale();
             List<ItemSale> listItens = sale.getItemSalesList();
 
-            Product product = productRepository.findById(itemDto.getIdProductRequestDto()).orElseThrow(
+            Product product = productRepository.findById(itemDto.getIdProduct()).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Products no exists"));
             itemSale.setProduct(product);
 

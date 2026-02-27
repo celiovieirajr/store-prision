@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 @Data
 @JsonPropertyOrder(
         {"id",
-        "saleResponseDto",
         "productResponseDto",
         "quantity",
         "amount",
@@ -16,9 +15,7 @@ import java.math.BigDecimal;
 public class ItemSaleResponseDto {
 
     private Long id;
-    private SaleResponseDto saleResponseDto;
-    private ProductResponseDto productResponseDto;
+    private ProductResponseDto product;
     private Integer quantity;
-    private BigDecimal amount;
     private BigDecimal totalAmount;
 }
