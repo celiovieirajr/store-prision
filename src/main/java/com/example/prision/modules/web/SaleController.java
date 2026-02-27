@@ -4,6 +4,7 @@ import com.example.prision.modules.dto.CategoryRequestDto;
 import com.example.prision.modules.dto.SaleRequestDto;
 import com.example.prision.modules.dto.SaleResponseDto;
 import com.example.prision.modules.service.ISaleService;
+import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,7 +38,7 @@ public class SaleController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
     @PostMapping()
-    public ResponseEntity<SaleResponseDto> insertSale(@RequestBody SaleRequestDto saleRequestDto) {
+    public ResponseEntity<SaleResponseDto> insertSale(@Valid @RequestBody SaleRequestDto saleRequestDto) {
         SaleResponseDto response = saleService.createSale(saleRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -92,9 +93,9 @@ public class SaleController {
             })
     @PutMapping("/{idSale}")
     public ResponseEntity<SaleResponseDto> updateById(@PathVariable Long idSale,
-                                                      @RequestBody SaleRequestDto saleRequestDto) {
+                                                      @Valid @RequestBody SaleRequestDto saleRequestDto) {
         SaleResponseDto response = saleService.updatedSale(idSale, saleRequestDto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "Delete sale by Id", description = "Find sale by Id",

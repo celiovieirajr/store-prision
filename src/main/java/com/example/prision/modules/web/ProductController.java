@@ -4,6 +4,7 @@ import com.example.prision.modules.dto.PenitentiaryRequestDto;
 import com.example.prision.modules.dto.ProductRequestDto;
 import com.example.prision.modules.dto.ProductResponseDto;
 import com.example.prision.modules.service.IProductService;
+import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,7 +37,7 @@ public class ProductController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
     @PostMapping
-    public ResponseEntity<ProductResponseDto> insertProductController(@RequestBody ProductRequestDto productRequestDto) {
+    public ResponseEntity<ProductResponseDto> insertProductController(@Valid @RequestBody ProductRequestDto productRequestDto) {
         ProductResponseDto response =  productService.insertProduct(productRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -90,10 +91,10 @@ public class ProductController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
     @PutMapping("/{id}")
-    public ResponseEntity<List<ProductResponseDto>> updateProductByIdController(@PathVariable Long id,
-                                                                                @RequestBody ProductRequestDto productRequestDto) {
+    public ResponseEntity<ProductResponseDto> updateProductByIdController(@PathVariable Long id,
+                                                                          @Valid @RequestBody ProductRequestDto productRequestDto) {
         ProductResponseDto response =  productService.updateProduct(id, productRequestDto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "Delete product by Id", description = "Delete product by Id",
